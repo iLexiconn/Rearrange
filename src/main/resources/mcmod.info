@@ -1,0 +1,17 @@
+[
+    {
+        "modid": "rearrange",
+        "name": "Rearrange",
+        "description": "Customize your Minecraft HUD.",
+        "version": "${version}",
+        "url": "https://ilexiconn.net/",
+        "authorList": [
+            "iLexiconn"
+        ],
+        "credits": "",
+        "dependencies": [
+            "Forge",
+            "llibrary@[0.6.0,)"
+        ]
+    }
+]
