@@ -82,7 +82,7 @@ public class HotbarComponent extends Gui implements IComponent {
     }
 
     @Override
-    public IComponentConfig createNewConfig() {
+    public IComponentConfig createConfig() {
         IComponentConfig config = new DefaultComponentConfig();
         config.set("animated", true);
         return config;

@@ -8,13 +8,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ComponentButton extends GuiButtonExt {
-    public HoverChecker hoverChecker;
     public int xRelative;
     public int yRelative;
     public String tooltip;
+    public HoverChecker hoverChecker;
 
     public ComponentButton(int id, int xPos, int yPos, String displayString, String tooltip) {
-        super(id, 0 , 0, 10, 10, displayString);
+        super(id, 0, 0, 10, 10, displayString);
         xRelative = xPos;
         yRelative = yPos;
         this.tooltip = StatCollector.translateToLocal(tooltip);

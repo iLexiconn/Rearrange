@@ -12,6 +12,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The main API class for Rearrange.
+ *
+ * @author iLexiconn
+ * @since 0.1.0
+ */
 @SideOnly(Side.CLIENT)
 public class RearrangeAPI {
     public static final String VERSION = "0.1.0";
@@ -19,10 +25,22 @@ public class RearrangeAPI {
     private static Map<IComponent, RenderGameOverlayEvent.ElementType> componentMap = Maps.newHashMap();
     private static Map<IComponent, IComponentConfig> configMap = Maps.newHashMap();
 
+    /**
+     * Register a new {@link net.ilexiconn.rearrange.api.component.IComponent} without overriding an existing HUD
+     * element.
+     *
+     * @param component the component to register.
+     */
     public static void registerComponent(IComponent component) {
         registerOverrideComponent(component, null);
     }
 
+    /**
+     * Register a new {@link net.ilexiconn.rearrange.api.component.IComponent}. If the element type isn't null, that
+     * specific type will be overridden by this component.
+     *
+     * @param type the component to override.
+     */
     public static void registerOverrideComponent(IComponent component, RenderGameOverlayEvent.ElementType type) {
         if (type != null) {
             for (RenderGameOverlayEvent.ElementType t : componentMap.values()) {
@@ -35,6 +53,15 @@ public class RearrangeAPI {
         componentMap.put(component, type);
     }
 
+    /**
+     * Get the {@link net.ilexiconn.rearrange.api.component.IComponent} for the specific
+     * {@link net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType}. Returns null if there isn't
+     * any component overriding this type.
+     *
+     * @param type the type.
+     * @return the {@link net.ilexiconn.rearrange.api.component.IComponent} overriding this type. Null if there isn't
+     * any components overriding this type.
+     */
     public static IComponent getComponentForType(RenderGameOverlayEvent.ElementType type) {
         if (type == null) {
             return null;
@@ -47,6 +74,15 @@ public class RearrangeAPI {
         return null;
     }
 
+    /**
+     * Get the {@link net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType} this
+     * {@link net.ilexiconn.rearrange.api.component.IComponent} is overriding. Returns null if the component isn't
+     * overriding any types.
+     *
+     * @param component the component to check the type for.
+     * @return the {@link net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType} this component is
+     * overriding.
+     */
     public static RenderGameOverlayEvent.ElementType getTypeForComponent(IComponent component) {
         if (component == null) {
             return null;
@@ -59,11 +95,19 @@ public class RearrangeAPI {
         return null;
     }
 
+    /**
+     * Get the {@link net.ilexiconn.rearrange.api.component.IComponentConfig} instance for this
+     * {@link net.ilexiconn.rearrange.api.component.IComponent}. Will create a new instance if there isn't a config
+     * for this component yet.
+     *
+     * @param component the component.
+     * @return the {@link net.ilexiconn.rearrange.api.component.IComponentConfig} instance.
+     */
     public static IComponentConfig getComponentConfig(IComponent component) {
         if (configMap.containsKey(component)) {
             return configMap.get(component);
         } else {
-            IComponentConfig config = component.createNewConfig();
+            IComponentConfig config = component.createConfig();
             if (!config.has("enabled")) {
                 config.set("enabled", true);
             }
@@ -78,6 +122,11 @@ public class RearrangeAPI {
         }
     }
 
+    /**
+     * Returns a list with all registered {@link net.ilexiconn.rearrange.api.component.IComponent}s.
+     *
+     * @return a list with all registered {@link net.ilexiconn.rearrange.api.component.IComponent}s.
+     */
     public static List<IComponent> getComponentList() {
         return Lists.newArrayList(componentMap.keySet());
     }

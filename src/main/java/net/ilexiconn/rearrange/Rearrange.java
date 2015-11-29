@@ -10,7 +10,7 @@ public class Rearrange {
     @SidedProxy(serverSide = "net.ilexiconn.rearrange.server.ServerProxy", clientSide = "net.ilexiconn.rearrange.client.ClientProxy")
     public static ServerProxy proxy;
 
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "0.1.0-develop";
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {

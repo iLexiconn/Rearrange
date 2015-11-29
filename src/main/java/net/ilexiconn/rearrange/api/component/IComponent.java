@@ -1,11 +1,20 @@
 package net.ilexiconn.rearrange.api.component;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
+/**
+ * Interface for all components. You can register classes implementing this interface using
+ * {@link net.ilexiconn.rearrange.api.RearrangeAPI#registerComponent(IComponent)} or
+ * {@link net.ilexiconn.rearrange.api.RearrangeAPI#registerOverrideComponent(IComponent, RenderGameOverlayEvent.ElementType)}.
+ *
+ * @author iLexiconn
+ * @since 0.1.0
+ */
 @SideOnly(Side.CLIENT)
 public interface IComponent {
     /**
@@ -48,7 +57,7 @@ public interface IComponent {
      *
      * @return the new config instance.
      */
-    IComponentConfig createNewConfig();
+    IComponentConfig createConfig();
 
     /**
      * Get the current width for this component. Used to trigger the component dragging. This method gets called every
