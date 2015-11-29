@@ -37,7 +37,7 @@ if (secretFile.exists()) {
 }
 
 version = getVersionFromJava()
-group = config.mod_group
+group = "net.ilexiconn"
 archivesBaseName = config.mod_name
 sourceCompatibility = targetCompatibility = 1.6
 
@@ -76,6 +76,23 @@ processResources {
     }
 }
 
+task apiJar(type: Jar) {
+    from (sourceSets.main.allSource) {
+        include "net/ilexiconn/" + config.mod_name.toLowerCase() + "/api/**"
+    }
+    classifier = "api"
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives apiJar
+    archives javadocJar
+}
+
 import groovy.json.JsonSlurper
 curseforge {
     def url = config.mod_versions.toURL()
@@ -101,6 +118,14 @@ curseforge {
                 requiredLibrary "LLibrary"
             }
         }
+
+        addArtifact(apiJar) {
+            displayName = "API"
+        }
+
+        addArtifact(javadocJar) {
+            displayName = "Javadoc"
+        }
     }
 }
 
@@ -113,7 +138,7 @@ String getVersionFromJavaWithoutMc() {
     String revision = "0";
     String patch = "0";
     String prefix = "public static final String VERSION = \"";
-    File file = file("src/main/java/" + config.main_class)
+    File file = file("src/main/java/net/ilexiconn/" + config.mod_name.toLowerCase() + "/" + config.mod_name + ".java");
     file.eachLine { String s ->
         s = s.trim();
         if (s.startsWith(prefix)) {
