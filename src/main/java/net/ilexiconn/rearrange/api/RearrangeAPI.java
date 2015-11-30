@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @SideOnly(Side.CLIENT)
 public class RearrangeAPI {
-    public static final String VERSION = "0.1.0";
+    public static final String VERSION = "0.1.0-develop";
 
     private static Map<IComponent, RenderGameOverlayEvent.ElementType> componentMap = Maps.newHashMap();
     private static Map<IComponent, IComponentConfig> configMap = Maps.newHashMap();
@@ -44,10 +44,16 @@ public class RearrangeAPI {
     public static void registerOverrideComponent(IComponent component, RenderGameOverlayEvent.ElementType type) {
         if (type != null) {
             for (RenderGameOverlayEvent.ElementType t : componentMap.values()) {
-                if (type ==  t) {
+                if (type == t) {
                     FMLLog.warning("Duplicate type override found for type " + type + "! (" + component + ")");
                     return;
                 }
+            }
+        }
+        for (IComponent c : getComponentList()) {
+            if (c.getComponentID().equals(component.getComponentID())) {
+                FMLLog.warning("Duplicate component id found for component " + component.getComponentID() + "! (" + component.getClass().getName() + " and " + c.getClass().getName() + ")");
+                return;
             }
         }
         componentMap.put(component, type);
