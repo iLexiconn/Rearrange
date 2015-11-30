@@ -87,13 +87,13 @@ public class GuiEditComponents extends GuiScreen {
                 }
                 int xPos = config.get("xPos");
                 int yPos = config.get("yPos");
-                if (mouseX < xPos || mouseY < yPos || mouseY >= xPos + entry.getKey().getWidth(config) || mouseY >= yPos + entry.getKey().getHeight(config)) {
+                if (mouseX < xPos || mouseY < yPos || mouseX >= xPos + entry.getKey().getWidth(config) || mouseY >= yPos + entry.getKey().getHeight(config)) {
                     continue;
                 }
                 dragging = entry.getKey();
                 lastX = mouseX;
                 lastY = mouseY;
-                break;
+                return;
             }
         }
         super.mouseClicked(mouseX, mouseY, mouseButton);
