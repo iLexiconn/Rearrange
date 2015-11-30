@@ -39,6 +39,7 @@ public class RearrangeAPI {
      * Register a new {@link net.ilexiconn.rearrange.api.component.IComponent}. If the element type isn't null, that
      * specific type will be overridden by this component.
      *
+     * @param component the component to register.
      * @param type the component to override.
      */
     public static void registerOverrideComponent(IComponent component, RenderGameOverlayEvent.ElementType type) {
@@ -129,7 +130,7 @@ public class RearrangeAPI {
     }
 
     /**
-     * Get the {@link net.ilexiconn.rearrange.api.component.IComponent} instance forht his
+     * Get the {@link net.ilexiconn.rearrange.api.component.IComponent} instance for this
      * {@link net.ilexiconn.rearrange.api.component.IComponentConfig}. Will return null if it can't find one.
      *
      * @param config the config.

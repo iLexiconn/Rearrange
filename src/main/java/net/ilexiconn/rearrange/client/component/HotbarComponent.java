@@ -30,7 +30,7 @@ public class HotbarComponent extends Gui implements IComponent {
     @Override
     public void init(List<ComponentButton> buttonList, IComponentConfig config) {
         boolean animated = config.get("animated");
-        buttonList.add(new ComponentButton(0, -1, 23, animated ? "o" : "x", "Animate the pickup sequence"));
+        buttonList.add(new ComponentButton(0, 0, 23, animated ? "o" : "x", "Animate the pickup sequence"));
     }
 
     @Override

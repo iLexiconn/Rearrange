@@ -5,6 +5,7 @@ import net.ilexiconn.rearrange.Rearrange;
 import net.ilexiconn.rearrange.api.RearrangeAPI;
 import net.ilexiconn.rearrange.api.component.IComponent;
 import net.ilexiconn.rearrange.api.component.IComponentConfig;
+import net.ilexiconn.rearrange.client.component.HealthComponent;
 import net.ilexiconn.rearrange.client.component.HotbarComponent;
 import net.ilexiconn.rearrange.server.ServerProxy;
 import net.minecraft.client.settings.KeyBinding;
@@ -27,6 +28,7 @@ public class ClientProxy extends ServerProxy {
         ClientRegistry.registerKeyBinding(keyEditComponents);
 
         RearrangeAPI.registerOverrideComponent(new HotbarComponent(), RenderGameOverlayEvent.ElementType.HOTBAR);
+        RearrangeAPI.registerOverrideComponent(new HealthComponent(), RenderGameOverlayEvent.ElementType.HEALTH);
     }
 
     public void postInit() {

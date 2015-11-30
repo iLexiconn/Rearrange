@@ -58,7 +58,6 @@ public interface IComponent {
 
     /**
      * Called when a new config file is getting created. Here you can put all default values for your component.
-     * <p/>
      * You can use the default implementation ({@link net.ilexiconn.rearrange.client.component.DefaultComponentConfig})
      * or create your own one.
      *
