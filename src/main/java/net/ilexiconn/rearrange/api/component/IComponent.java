@@ -18,6 +18,13 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public interface IComponent {
     /**
+     * Return the id of this component. This value is used for the config entry.
+     *
+     * @return the id of this component.
+     */
+    String getComponentID();
+
+    /**
      * Called when the user opens the edit gui.
      *
      * @param buttonList the list with all the button instances.

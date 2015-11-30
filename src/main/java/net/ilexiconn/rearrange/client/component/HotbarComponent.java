@@ -23,6 +23,11 @@ public class HotbarComponent extends Gui implements IComponent {
     public ResourceLocation texture = new ResourceLocation("textures/gui/widgets.png");
 
     @Override
+    public String getComponentID() {
+        return "hotbar";
+    }
+
+    @Override
     public void init(List<ComponentButton> buttonList, IComponentConfig config) {
         boolean animated = config.get("animated");
         buttonList.add(new ComponentButton(0, -1, 23, animated ? "o" : "x", "Animate the pickup sequence"));

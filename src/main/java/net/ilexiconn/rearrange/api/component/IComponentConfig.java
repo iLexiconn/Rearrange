@@ -3,6 +3,8 @@ package net.ilexiconn.rearrange.api.component;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.IOException;
+
 /**
  * Interface for component configs. You can find the default implementation at
  * {@link net.ilexiconn.rearrange.client.component.DefaultComponentConfig}.
@@ -40,4 +42,10 @@ public interface IComponentConfig {
      * @throws UnsupportedOperationException if not supported by the used implementation.
      */
     boolean has(String id);
+
+    void setState(int state);
+
+    void save() throws IOException;
+
+    void load() throws IOException;
 }

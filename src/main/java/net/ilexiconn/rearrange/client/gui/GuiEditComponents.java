@@ -2,6 +2,8 @@ package net.ilexiconn.rearrange.client.gui;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.ilexiconn.llibrary.common.crash.SimpleCrashReport;
+import net.ilexiconn.rearrange.Rearrange;
 import net.ilexiconn.rearrange.api.RearrangeAPI;
 import net.ilexiconn.rearrange.api.component.ComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponent;
@@ -25,12 +27,12 @@ public class GuiEditComponents extends GuiScreen {
     public void initGui() {
         buttonMap.clear();
         for (IComponent component : RearrangeAPI.getComponentList()) {
-            IComponentConfig config = RearrangeAPI.getComponentConfig(component);
+            IComponentConfig config = RearrangeAPI.getConfigForComponent(component);
             boolean enabled = config.get("enabled");
             int xPos = config.get("xPos");
             int yPos = config.get("yPos");
             List<ComponentButton> buttonList = Lists.newArrayList();
-            component.init(buttonList, RearrangeAPI.getComponentConfig(component));
+            component.init(buttonList, RearrangeAPI.getConfigForComponent(component));
             buttonList.add(new ComponentButton(-1, -1, -11, enabled ? "o" : "x", "Display this component"));
             for (ComponentButton button : buttonList) {
                 button.xPosition = xPos + button.xRelative;
@@ -43,7 +45,7 @@ public class GuiEditComponents extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
         for (IComponent component : RearrangeAPI.getComponentList()) {
-            IComponentConfig config = RearrangeAPI.getComponentConfig(component);
+            IComponentConfig config = RearrangeAPI.getConfigForComponent(component);
             boolean enabled = config.get("enabled");
             int xPos = config.get("xPos");
             int yPos = config.get("yPos");
@@ -65,7 +67,7 @@ public class GuiEditComponents extends GuiScreen {
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (mouseButton == 0) {
             for (Map.Entry<IComponent, List<ComponentButton>> entry : buttonMap.entrySet()) {
-                IComponentConfig config = RearrangeAPI.getComponentConfig(entry.getKey());
+                IComponentConfig config = RearrangeAPI.getConfigForComponent(entry.getKey());
                 boolean flag = false;
                 for (ComponentButton button : entry.getValue()) {
                     if (button.mousePressed(mc, mouseX, mouseY)) {
@@ -76,7 +78,7 @@ public class GuiEditComponents extends GuiScreen {
                             config.set("enabled", !enabled);
                             button.displayString = enabled ? "x" : "o";
                         } else {
-                            entry.getKey().actionPerformed(button, RearrangeAPI.getComponentConfig(entry.getKey()));
+                            entry.getKey().actionPerformed(button, RearrangeAPI.getConfigForComponent(entry.getKey()));
                         }
                     }
                 }
@@ -99,7 +101,7 @@ public class GuiEditComponents extends GuiScreen {
 
     public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
         if (dragging != null) {
-            IComponentConfig config = RearrangeAPI.getComponentConfig(dragging);
+            IComponentConfig config = RearrangeAPI.getConfigForComponent(dragging);
             int width = dragging.getWidth(config);
             int height = dragging.getHeight(config);
             int xPos = config.get("xPos");
@@ -135,12 +137,25 @@ public class GuiEditComponents extends GuiScreen {
 
     public void updateScreen() {
         for (Map.Entry<IComponent, List<ComponentButton>> entry : buttonMap.entrySet()) {
-            IComponentConfig config = RearrangeAPI.getComponentConfig(entry.getKey());
+            IComponentConfig config = RearrangeAPI.getConfigForComponent(entry.getKey());
             int xPos = config.get("xPos");
             int yPos = config.get("yPos");
             for (ComponentButton button : entry.getValue()) {
                 button.xPosition = xPos + button.xRelative;
                 button.yPosition = yPos + button.yRelative;
+            }
+        }
+    }
+
+    public void onGuiClosed() {
+        for (IComponent component : RearrangeAPI.getComponentList()) {
+            IComponentConfig config = RearrangeAPI.getConfigForComponent(component);
+            if (config != null) {
+                try {
+                    config.save();
+                } catch (IOException e) {
+                    Rearrange.logger.error(SimpleCrashReport.makeCrashReport(e, "Unable to save config for component " + component.getComponentID()));
+                }
             }
         }
     }

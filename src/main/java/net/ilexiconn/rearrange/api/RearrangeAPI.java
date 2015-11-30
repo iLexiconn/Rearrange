@@ -103,7 +103,7 @@ public class RearrangeAPI {
      * @param component the component.
      * @return the {@link net.ilexiconn.rearrange.api.component.IComponentConfig} instance.
      */
-    public static IComponentConfig getComponentConfig(IComponent component) {
+    public static IComponentConfig getConfigForComponent(IComponent component) {
         if (configMap.containsKey(component)) {
             return configMap.get(component);
         } else {
@@ -120,6 +120,22 @@ public class RearrangeAPI {
             configMap.put(component, config);
             return config;
         }
+    }
+
+    /**
+     * Get the {@link net.ilexiconn.rearrange.api.component.IComponent} instance forht his
+     * {@link net.ilexiconn.rearrange.api.component.IComponentConfig}. Will return null if it can't find one.
+     *
+     * @param config the config.
+     * @return the {@link net.ilexiconn.rearrange.api.component.IComponentConfig} null;
+     */
+    public static IComponent getComponentForConfig(IComponentConfig config) {
+        for (Map.Entry<IComponent, IComponentConfig> entry : configMap.entrySet()) {
+            if (entry.getValue() == config) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     /**

@@ -19,7 +19,7 @@ public class ClientEventHandler {
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         for (IComponent component : RearrangeAPI.getComponentList()) {
-            component.update(RearrangeAPI.getComponentConfig(component));
+            component.update(RearrangeAPI.getConfigForComponent(component));
         }
     }
 
@@ -31,7 +31,7 @@ public class ClientEventHandler {
             if (mc.currentScreen instanceof GuiEditComponents) {
                 return;
             }
-            IComponentConfig config = RearrangeAPI.getComponentConfig(component);
+            IComponentConfig config = RearrangeAPI.getConfigForComponent(component);
             boolean enabled = config.get("enabled");
             if (!enabled) {
                 return;
