@@ -43,9 +43,17 @@ public interface IComponentConfig {
      */
     boolean has(String id);
 
-    void setState(int state);
-
+    /**
+     * Save the current config to a file.
+     *
+     * @throws IOException if the file can't be written to.
+     */
     void save() throws IOException;
 
+    /**
+     * Read the Rearrange config file and apply the values to this config instance.
+     *
+     * @throws IOException if the file can't be read from.
+     */
     void load() throws IOException;
 }

@@ -16,14 +16,8 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class DefaultComponentConfig implements IComponentConfig {
     private Map<String, Object> map = Maps.newHashMap();
-    private int state;
 
     public <T> void set(String id, T value) {
-        if (state == -1) {
-            if (has(id)) {
-                return;
-            }
-        }
         map.put(id, value);
     }
 
@@ -37,10 +31,6 @@ public class DefaultComponentConfig implements IComponentConfig {
 
     public boolean has(String id) {
         return map.containsKey(id);
-    }
-
-    public void setState(int state) {
-        this.state = state;
     }
 
     public void save() throws IOException {
@@ -67,7 +57,7 @@ public class DefaultComponentConfig implements IComponentConfig {
             return config.getBoolean(var, id, (Boolean) value, "");
         } else if (value instanceof Integer) {
             return config.getInt(var, id, (Integer) value, Integer.MIN_VALUE, Integer.MAX_VALUE, "");
-        } else if (value instanceof Float) {
+        } else if (value instanceof Float || value instanceof Double) {
             return config.getFloat(var, id, (Float) value, Float.MIN_VALUE, Float.MAX_VALUE, "");
         } else if (value instanceof String) {
             return config.getString(var, id, (String) value, "");
@@ -81,7 +71,7 @@ public class DefaultComponentConfig implements IComponentConfig {
             return Property.Type.BOOLEAN;
         } else if (object instanceof Integer) {
             return Property.Type.INTEGER;
-        } else if (object instanceof Float) {
+        } else if (object instanceof Float || object instanceof Double) {
             return Property.Type.DOUBLE;
         } else if (object instanceof String) {
             return Property.Type.STRING;
