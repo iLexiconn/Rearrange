@@ -32,11 +32,6 @@ public class HotbarComponent extends Gui implements IComponent {
             final int i1 = i;
             buttonList.add(new IComponentButton() {
                 @Override
-                public int getID() {
-                    return i1;
-                }
-
-                @Override
                 public String getDisplayString(IComponentConfig config) {
                     boolean animated = config.get("animated");
                     return animated ? "o" : "x";

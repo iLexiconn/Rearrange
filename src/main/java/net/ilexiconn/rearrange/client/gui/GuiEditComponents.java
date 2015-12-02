@@ -35,11 +35,6 @@ public class GuiEditComponents extends GuiScreen {
             component.init(buttonList, RearrangeAPI.getConfigForComponent(component));
             IComponentButton buttonEnable = new IComponentButton() {
                 @Override
-                public int getID() {
-                    return -1;
-                }
-
-                @Override
                 public String getDisplayString(IComponentConfig config) {
                     boolean enabled = config.get("enabled");
                     return enabled ? "o" : "x";
@@ -60,13 +55,7 @@ public class GuiEditComponents extends GuiScreen {
             List<DefaultComponentButton> buttonInstanceList = Lists.newArrayList();
             for (int i = 0; i < buttonList.size(); i++) {
                 IComponentButton button = buttonList.get(i);
-                boolean flag = false;
-                if (button.getID() < 0 && button != buttonEnable) {
-                    Rearrange.logger.error("Can't use buttons IDs below 0! " + button.getClass().getName());
-                    continue;
-                } else if (button.getID() < 0) {
-                    flag = true;
-                }
+                boolean flag = button == buttonEnable;
                 DefaultComponentButton gui = new DefaultComponentButton(flag ? 0 : i * 9, flag ? -11 : component.getHeight(config) + 1, button, config);
                 gui.xPosition = xPos + gui.xRelative - 2;
                 gui.yPosition = yPos + gui.yRelative;
