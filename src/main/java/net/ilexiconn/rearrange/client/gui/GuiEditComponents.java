@@ -15,6 +15,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,30 +34,16 @@ public class GuiEditComponents extends GuiScreen {
             int yPos = config.get("yPos");
             List<IComponentButton> buttonList = Lists.newArrayList();
             component.init(buttonList, RearrangeAPI.getConfigForComponent(component));
-            IComponentButton buttonEnable = new IComponentButton() {
-                @Override
-                public String getDisplayString(IComponentConfig config) {
-                    boolean enabled = config.get("enabled");
-                    return enabled ? "o" : "x";
-                }
-
-                @Override
-                public String getTooltip(IComponentConfig config) {
-                    return "rearrange.enable.tooltip";
-                }
-
-                @Override
-                public void onClick(IComponentConfig config) {
-                    boolean enabled = config.get("enabled");
-                    config.set("enabled", !enabled);
-                }
-            };
-            buttonList.add(buttonEnable);
+            IComponentButtonInternal[] internalButtons = initInternalButtons();
+            Collections.addAll(buttonList, internalButtons);
             List<DefaultComponentButton> buttonInstanceList = Lists.newArrayList();
             for (int i = 0; i < buttonList.size(); i++) {
                 IComponentButton button = buttonList.get(i);
-                boolean flag = button == buttonEnable;
-                DefaultComponentButton gui = new DefaultComponentButton(flag ? 0 : i * 9, flag ? -11 : component.getHeight(config) + 1, button, config);
+                if (button == null) {
+                    continue;
+                }
+                boolean flag = button instanceof IComponentButtonInternal;
+                DefaultComponentButton gui = new DefaultComponentButton(flag ? (i - (buttonList.size() - internalButtons.length)) * 9 : i * 9, flag ? -11 : component.getHeight(config) + 1, button, config);
                 gui.xPosition = xPos + gui.xRelative - 2;
                 gui.yPosition = yPos + gui.yRelative;
                 buttonInstanceList.add(gui);
@@ -180,5 +167,49 @@ public class GuiEditComponents extends GuiScreen {
                 }
             }
         }
+    }
+
+    public IComponentButtonInternal[] initInternalButtons() {
+        IComponentButtonInternal buttonEnable = new IComponentButtonInternal() {
+            @Override
+            public String getDisplayString(IComponentConfig config) {
+                boolean enabled = config.get("enabled");
+                return enabled ? "o" : "x";
+            }
+
+            @Override
+            public String getTooltip(IComponentConfig config) {
+                return "rearrange.enable.tooltip";
+            }
+
+            @Override
+            public void onClick(IComponentConfig config) {
+                boolean enabled = config.get("enabled");
+                config.set("enabled", !enabled);
+            }
+        };
+
+        IComponentButtonInternal buttonLeft = new IComponentButtonInternal() {
+            @Override
+            public String getDisplayString(IComponentConfig config) {
+                return "<";
+            }
+
+            @Override
+            public String getTooltip(IComponentConfig config) {
+                return "rearrange.left.tooltip";
+            }
+
+            @Override
+            public void onClick(IComponentConfig config) {
+                config.set("xPos", 0);
+            }
+        };
+
+        return new IComponentButtonInternal[] {buttonEnable, null, buttonLeft};
+    }
+
+    private interface IComponentButtonInternal extends IComponentButton {
+
     }
 }

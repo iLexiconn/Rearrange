@@ -28,27 +28,24 @@ public class HotbarComponent extends Gui implements IComponent {
 
     @Override
     public void init(List<IComponentButton> buttonList, IComponentConfig config) {
-        for (int i = 0; i < 10; i++) {
-            final int i1 = i;
-            buttonList.add(new IComponentButton() {
-                @Override
-                public String getDisplayString(IComponentConfig config) {
-                    boolean animated = config.get("animated");
-                    return animated ? "o" : "x";
-                }
+        buttonList.add(new IComponentButton() {
+            @Override
+            public String getDisplayString(IComponentConfig config) {
+                boolean animated = config.get("animated");
+                return animated ? "o" : "x";
+            }
 
-                @Override
-                public String getTooltip(IComponentConfig config) {
-                    return "rearrange.hotbar.tooltip";
-                }
+            @Override
+            public String getTooltip(IComponentConfig config) {
+                return "rearrange.hotbar.tooltip";
+            }
 
-                @Override
-                public void onClick(IComponentConfig config) {
-                    boolean animated = config.get("animated");
-                    config.set("animated", !animated);
-                }
-            });
-        }
+            @Override
+            public void onClick(IComponentConfig config) {
+                boolean animated = config.get("animated");
+                config.set("animated", !animated);
+            }
+        });
     }
 
     @Override
