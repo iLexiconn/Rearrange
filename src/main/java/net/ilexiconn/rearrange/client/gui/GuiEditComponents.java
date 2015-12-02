@@ -20,31 +20,25 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class GuiEditComponents extends GuiScreen {
     public Map<IComponent, List<ComponentButton>> buttonMap = Maps.newLinkedHashMap();
-    public Map<IComponent, List<ComponentButton>> reversedButtonMap = Maps.newLinkedHashMap();
     public IComponent dragging;
     public int lastX;
     public int lastY;
 
     public void initGui() {
         buttonMap.clear();
-        reversedButtonMap.clear();
         for (IComponent component : RearrangeAPI.getComponentList()) {
             IComponentConfig config = RearrangeAPI.getConfigForComponent(component);
             boolean enabled = config.get("enabled");
             int xPos = config.get("xPos");
             int yPos = config.get("yPos");
             List<ComponentButton> buttonList = Lists.newArrayList();
-            component.init(buttonList, RearrangeAPI.getConfigForComponent(component));
-            buttonList.add(new ComponentButton(0, 0, -11, enabled ? "o" : "x", "Display this component"));
+            //component.init(buttonList, RearrangeAPI.getConfigForComponent(component));
+            //buttonList.add(new ComponentButton(0, 0, -11, enabled ? "o" : "x", "Display this component"));
             for (ComponentButton button : buttonList) {
                 button.xPosition = xPos + button.xRelative - 2;
                 button.yPosition = yPos + button.yRelative;
             }
             buttonMap.put(component, buttonList);
-        }
-        List<IComponent> keys = Lists.newArrayList(buttonMap.keySet());
-        for(int i=keys.size()-1; i>=0;i--){
-            reversedButtonMap.put(keys.get(i), buttonMap.get(keys.get(i)));
         }
     }
 
@@ -76,7 +70,7 @@ public class GuiEditComponents extends GuiScreen {
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (mouseButton == 0) {
-            for (Map.Entry<IComponent, List<ComponentButton>> entry : reversedButtonMap.entrySet()) {
+            for (Map.Entry<IComponent, List<ComponentButton>> entry : buttonMap.entrySet()) {
                 IComponentConfig config = RearrangeAPI.getConfigForComponent(entry.getKey());
                 boolean flag = false;
                 for (ComponentButton button : entry.getValue()) {
