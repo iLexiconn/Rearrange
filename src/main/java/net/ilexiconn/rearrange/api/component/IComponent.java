@@ -1,6 +1,5 @@
 package net.ilexiconn.rearrange.api.component;
 
-import net.minecraft.client.gui.GuiButton;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,7 +29,7 @@ public interface IComponent {
      * @param buttonList the list with all the button instances.
      * @param config the config instance.
      */
-    void init(List<ComponentButton> buttonList, IComponentConfig config);
+    void init(List<IComponentButton> buttonList, IComponentConfig config);
 
     /**
      * Called every render tick.
@@ -40,14 +39,6 @@ public interface IComponent {
      * @param config the config instance.
      */
     void render(int x, int y, IComponentConfig config);
-
-    /**
-     * Called when the user presses on a button.
-     *
-     * @param button the clicked button instance.
-     * @param config the config instance.
-     */
-    void actionPerformed(GuiButton button, IComponentConfig config);
 
     /**
      * Called every update tick.

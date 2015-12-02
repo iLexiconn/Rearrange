@@ -1,12 +1,11 @@
 package net.ilexiconn.rearrange.client.component;
 
 import net.ilexiconn.llibrary.LLibrary;
-import net.ilexiconn.rearrange.api.component.ComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponent;
+import net.ilexiconn.rearrange.api.component.IComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponentConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,9 +27,33 @@ public class HotbarComponent extends Gui implements IComponent {
     }
 
     @Override
-    public void init(List<ComponentButton> buttonList, IComponentConfig config) {
-        boolean animated = config.get("animated");
-        buttonList.add(new ComponentButton(0, 0, 23, animated ? "o" : "x", "Animate the pickup sequence"));
+    public void init(List<IComponentButton> buttonList, IComponentConfig config) {
+        for (int i = 0; i < 10; i++) {
+            final int i1 = i;
+            buttonList.add(new IComponentButton() {
+                @Override
+                public int getID() {
+                    return i1;
+                }
+
+                @Override
+                public String getDisplayString(IComponentConfig config) {
+                    boolean animated = config.get("animated");
+                    return animated ? "o" : "x";
+                }
+
+                @Override
+                public String getTooltip(IComponentConfig config) {
+                    return "rearrange.hotbar.tooltip";
+                }
+
+                @Override
+                public void onClick(IComponentConfig config) {
+                    boolean animated = config.get("animated");
+                    config.set("animated", !animated);
+                }
+            });
+        }
     }
 
     @Override
@@ -69,15 +92,6 @@ public class HotbarComponent extends Gui implements IComponent {
             RenderHelper.disableStandardItemLighting();
             GlStateManager.disableRescaleNormal();
             GlStateManager.disableBlend();
-        }
-    }
-
-    @Override
-    public void actionPerformed(GuiButton button, IComponentConfig config) {
-        if (button.id == 0) {
-            boolean animated = config.get("animated");
-            config.set("animated", !animated);
-            button.displayString = animated ? "x" : "o";
         }
     }
 

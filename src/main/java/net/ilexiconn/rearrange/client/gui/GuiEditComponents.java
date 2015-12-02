@@ -5,9 +5,10 @@ import com.google.common.collect.Maps;
 import net.ilexiconn.llibrary.common.crash.SimpleCrashReport;
 import net.ilexiconn.rearrange.Rearrange;
 import net.ilexiconn.rearrange.api.RearrangeAPI;
-import net.ilexiconn.rearrange.api.component.ComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponent;
+import net.ilexiconn.rearrange.api.component.IComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponentConfig;
+import net.ilexiconn.rearrange.client.component.DefaultComponentButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class GuiEditComponents extends GuiScreen {
-    public Map<IComponent, List<ComponentButton>> buttonMap = Maps.newLinkedHashMap();
+    public Map<IComponent, List<DefaultComponentButton>> buttonMap = Maps.newLinkedHashMap();
     public IComponent dragging;
     public int lastX;
     public int lastY;
@@ -28,23 +29,56 @@ public class GuiEditComponents extends GuiScreen {
         buttonMap.clear();
         for (IComponent component : RearrangeAPI.getComponentList()) {
             IComponentConfig config = RearrangeAPI.getConfigForComponent(component);
-            boolean enabled = config.get("enabled");
             int xPos = config.get("xPos");
             int yPos = config.get("yPos");
-            List<ComponentButton> buttonList = Lists.newArrayList();
-            //component.init(buttonList, RearrangeAPI.getConfigForComponent(component));
-            //buttonList.add(new ComponentButton(0, 0, -11, enabled ? "o" : "x", "Display this component"));
-            for (ComponentButton button : buttonList) {
-                button.xPosition = xPos + button.xRelative - 2;
-                button.yPosition = yPos + button.yRelative;
+            List<IComponentButton> buttonList = Lists.newArrayList();
+            component.init(buttonList, RearrangeAPI.getConfigForComponent(component));
+            IComponentButton buttonEnable = new IComponentButton() {
+                @Override
+                public int getID() {
+                    return -1;
+                }
+
+                @Override
+                public String getDisplayString(IComponentConfig config) {
+                    boolean enabled = config.get("enabled");
+                    return enabled ? "o" : "x";
+                }
+
+                @Override
+                public String getTooltip(IComponentConfig config) {
+                    return "rearrange.enable.tooltip";
+                }
+
+                @Override
+                public void onClick(IComponentConfig config) {
+                    boolean enabled = config.get("enabled");
+                    config.set("enabled", !enabled);
+                }
+            };
+            buttonList.add(buttonEnable);
+            List<DefaultComponentButton> buttonInstanceList = Lists.newArrayList();
+            for (int i = 0; i < buttonList.size(); i++) {
+                IComponentButton button = buttonList.get(i);
+                boolean flag = false;
+                if (button.getID() < 0 && button != buttonEnable) {
+                    Rearrange.logger.error("Can't use buttons IDs below 0! " + button.getClass().getName());
+                    continue;
+                } else if (button.getID() < 0) {
+                    flag = true;
+                }
+                DefaultComponentButton gui = new DefaultComponentButton(flag ? 0 : i * 9, flag ? -11 : component.getHeight(config) + 1, button, config);
+                gui.xPosition = xPos + gui.xRelative - 2;
+                gui.yPosition = yPos + gui.yRelative;
+                buttonInstanceList.add(gui);
             }
-            buttonMap.put(component, buttonList);
+            buttonMap.put(component, buttonInstanceList);
         }
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
-        for (Map.Entry<IComponent, List<ComponentButton>> entry : buttonMap.entrySet()) {
+        for (Map.Entry<IComponent, List<DefaultComponentButton>> entry : buttonMap.entrySet()) {
             IComponentConfig config = RearrangeAPI.getConfigForComponent(entry.getKey());
             boolean enabled = config.get("enabled");
             int xPos = config.get("xPos");
@@ -57,7 +91,7 @@ public class GuiEditComponents extends GuiScreen {
             drawHorizontalLine(xPos - 1, xPos + entry.getKey().getWidth(config), yPos + entry.getKey().getHeight(config) + 1, 0xff000000);
             GlStateManager.color(1f, 1f, 1f, 1f);
             entry.getKey().render(xPos, yPos, config);
-            for (ComponentButton button : entry.getValue()) {
+            for (DefaultComponentButton button : entry.getValue()) {
                 GlStateManager.disableLighting();
                 button.drawButton(mc, mouseX, mouseY);
                 if (button.hoverChecker.checkHover(mouseX, mouseY)) {
@@ -70,20 +104,14 @@ public class GuiEditComponents extends GuiScreen {
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (mouseButton == 0) {
-            for (Map.Entry<IComponent, List<ComponentButton>> entry : buttonMap.entrySet()) {
+            for (Map.Entry<IComponent, List<DefaultComponentButton>> entry : buttonMap.entrySet()) {
                 IComponentConfig config = RearrangeAPI.getConfigForComponent(entry.getKey());
                 boolean flag = false;
-                for (ComponentButton button : entry.getValue()) {
+                for (DefaultComponentButton button : entry.getValue()) {
                     if (button.mousePressed(mc, mouseX, mouseY)) {
                         flag = true;
                         button.playPressSound(mc.getSoundHandler());
-                        if (button.id == -1) {
-                            boolean enabled = config.get("enabled");
-                            config.set("enabled", !enabled);
-                            button.displayString = enabled ? "x" : "o";
-                        } else {
-                            entry.getKey().actionPerformed(button, RearrangeAPI.getConfigForComponent(entry.getKey()));
-                        }
+                        button.componentButton.onClick(config);
                     }
                 }
                 if (flag) {
@@ -140,11 +168,12 @@ public class GuiEditComponents extends GuiScreen {
     }
 
     public void updateScreen() {
-        for (Map.Entry<IComponent, List<ComponentButton>> entry : buttonMap.entrySet()) {
+        for (Map.Entry<IComponent, List<DefaultComponentButton>> entry : buttonMap.entrySet()) {
             IComponentConfig config = RearrangeAPI.getConfigForComponent(entry.getKey());
             int xPos = config.get("xPos");
             int yPos = config.get("yPos");
-            for (ComponentButton button : entry.getValue()) {
+            for (DefaultComponentButton button : entry.getValue()) {
+                button.displayString = button.componentButton.getDisplayString(config);
                 button.xPosition = xPos + button.xRelative - 2;
                 button.yPosition = yPos + button.yRelative;
             }

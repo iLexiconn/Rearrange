@@ -1,11 +1,10 @@
 package net.ilexiconn.rearrange.client.component;
 
-import net.ilexiconn.rearrange.api.component.ComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponent;
+import net.ilexiconn.rearrange.api.component.IComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponentConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -32,14 +31,17 @@ public class HealthComponent extends Gui implements IComponent {
     public long lastSystemTime = 0L;
     public int lastPlayerHealth = 0;
 
+    @Override
     public String getComponentID() {
         return "health";
     }
 
-    public void init(List<ComponentButton> buttonList, IComponentConfig config) {
+    @Override
+    public void init(List<IComponentButton> buttonList, IComponentConfig config) {
 
     }
 
+    @Override
     public void render(int x, int y, IComponentConfig config) {
         mc.getTextureManager().bindTexture(texture);
         GlStateManager.enableBlend();
@@ -130,22 +132,22 @@ public class HealthComponent extends Gui implements IComponent {
         GlStateManager.disableBlend();
     }
 
-    public void actionPerformed(GuiButton button, IComponentConfig config) {
-
-    }
-
+    @Override
     public void update(IComponentConfig config) {
         updateCounter++;
     }
 
+    @Override
     public IComponentConfig createConfig() {
         return new DefaultComponentConfig();
     }
 
+    @Override
     public int getWidth(IComponentConfig config) {
         return 81;
     }
 
+    @Override
     public int getHeight(IComponentConfig config) {
         return 9;
     }

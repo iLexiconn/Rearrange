@@ -1,13 +1,13 @@
 package net.ilexiconn.rearrange.client.component;
 
-import net.ilexiconn.rearrange.api.component.ComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponent;
+import net.ilexiconn.rearrange.api.component.IComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponentConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -16,16 +16,21 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class ExperienceComponent extends Gui implements IComponent {
     public Minecraft mc = Minecraft.getMinecraft();
+    public ResourceLocation texture = new ResourceLocation("textures/gui/icons.png");
 
+    @Override
     public String getComponentID() {
         return "experience";
     }
 
-    public void init(List<ComponentButton> buttonList, IComponentConfig config) {
+    @Override
+    public void init(List<IComponentButton> buttonList, IComponentConfig config) {
 
     }
 
+    @Override
     public void render(int x, int y, IComponentConfig config) {
+        mc.getTextureManager().bindTexture(texture);
         GlStateManager.color(1f, 1f, 1f, 1f);
         GlStateManager.disableBlend();
         int barWidth = 182;
@@ -60,22 +65,22 @@ public class ExperienceComponent extends Gui implements IComponent {
         GlStateManager.color(1f, 1f, 1f, 1f);
     }
 
-    public void actionPerformed(GuiButton button, IComponentConfig config) {
-
-    }
-
+    @Override
     public void update(IComponentConfig config) {
 
     }
 
+    @Override
     public IComponentConfig createConfig() {
         return new DefaultComponentConfig();
     }
 
+    @Override
     public int getWidth(IComponentConfig config) {
         return 182;
     }
 
+    @Override
     public int getHeight(IComponentConfig config) {
         return 5;
     }
