@@ -5,10 +5,7 @@ import net.ilexiconn.rearrange.Rearrange;
 import net.ilexiconn.rearrange.api.RearrangeAPI;
 import net.ilexiconn.rearrange.api.component.IComponent;
 import net.ilexiconn.rearrange.api.component.IComponentConfig;
-import net.ilexiconn.rearrange.client.component.ExperienceComponent;
-import net.ilexiconn.rearrange.client.component.FoodComponent;
-import net.ilexiconn.rearrange.client.component.HealthComponent;
-import net.ilexiconn.rearrange.client.component.HotbarComponent;
+import net.ilexiconn.rearrange.client.component.*;
 import net.ilexiconn.rearrange.server.ServerProxy;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
@@ -34,6 +31,7 @@ public class ClientProxy extends ServerProxy {
         RearrangeAPI.registerOverrideComponent(new HealthComponent(), ElementType.HEALTH);
         RearrangeAPI.registerOverrideComponent(new FoodComponent(), ElementType.FOOD);
         RearrangeAPI.registerOverrideComponent(new ExperienceComponent(), ElementType.EXPERIENCE);
+        RearrangeAPI.registerOverrideComponent(new ArmorComponent(), ElementType.ARMOR);
     }
 
     public void postInit() {
