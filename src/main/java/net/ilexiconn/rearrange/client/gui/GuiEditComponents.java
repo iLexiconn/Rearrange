@@ -189,24 +189,7 @@ public class GuiEditComponents extends GuiScreen {
             }
         };
 
-        IComponentButtonInternal buttonLeft = new IComponentButtonInternal() {
-            @Override
-            public String getDisplayString(IComponentConfig config) {
-                return "<";
-            }
-
-            @Override
-            public String getTooltip(IComponentConfig config) {
-                return "rearrange.left.tooltip";
-            }
-
-            @Override
-            public void onClick(IComponentConfig config) {
-                config.set("xPos", 0);
-            }
-        };
-
-        return new IComponentButtonInternal[] {buttonEnable, null, buttonLeft};
+        return new IComponentButtonInternal[] {buttonEnable};
     }
 
     private interface IComponentButtonInternal extends IComponentButton {
