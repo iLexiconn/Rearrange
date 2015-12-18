@@ -5,7 +5,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public interface IComponentButton {
-    String getDisplayString(IComponentConfig config);
+    char getDisplayChar(IComponentConfig config);
 
     String getTooltip(IComponentConfig config);
 

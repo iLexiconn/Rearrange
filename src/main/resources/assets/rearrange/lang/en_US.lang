@@ -1,6 +1,5 @@
 key.editComponents=Edit Components
 
 rearrange.enable.tooltip=Enable or disable this component
-rearrange.left.tooltip=Align this component to the left
-
 rearrange.hotbar.tooltip=Animate the item pickup sequence
+rearrange.armor.tooltip=Resize the bar to the amount of armor pieces

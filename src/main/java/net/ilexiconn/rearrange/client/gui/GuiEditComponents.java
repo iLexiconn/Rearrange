@@ -149,7 +149,7 @@ public class GuiEditComponents extends GuiScreen {
             int xPos = config.get("xPos");
             int yPos = config.get("yPos");
             for (DefaultComponentButton button : entry.getValue()) {
-                button.displayString = button.componentButton.getDisplayString(config);
+                button.displayString = String.valueOf(button.componentButton.getDisplayChar(config));
                 button.xPosition = xPos + button.xRelative - 2;
                 button.yPosition = yPos + button.yRelative;
             }
@@ -172,9 +172,9 @@ public class GuiEditComponents extends GuiScreen {
     public IComponentButtonInternal[] initInternalButtons() {
         IComponentButtonInternal buttonEnable = new IComponentButtonInternal() {
             @Override
-            public String getDisplayString(IComponentConfig config) {
+            public char getDisplayChar(IComponentConfig config) {
                 boolean enabled = config.get("enabled");
-                return enabled ? "o" : "x";
+                return enabled ? 'o' : 'x';
             }
 
             @Override

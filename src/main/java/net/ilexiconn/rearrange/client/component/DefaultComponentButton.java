@@ -17,7 +17,7 @@ public class DefaultComponentButton extends GuiButtonExt {
     public IComponentButton componentButton;
 
     public DefaultComponentButton(int x, int y, IComponentButton button, IComponentConfig config) {
-        super(0, 0, 0, 10, 10, button.getDisplayString(config));
+        super(0, 0, 0, 10, 10, String.valueOf(button.getDisplayChar(config)));
         xRelative = x;
         yRelative = y;
         tooltip = StatCollector.translateToLocal(button.getTooltip(config));

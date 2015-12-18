@@ -30,9 +30,9 @@ public class HotbarComponent extends Gui implements IComponent {
     public void init(List<IComponentButton> buttonList, IComponentConfig config) {
         buttonList.add(new IComponentButton() {
             @Override
-            public String getDisplayString(IComponentConfig config) {
+            public char getDisplayChar(IComponentConfig config) {
                 boolean animated = config.get("animated");
-                return animated ? "o" : "x";
+                return animated ? 'o' : 'x';
             }
 
             @Override
