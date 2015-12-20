@@ -1,6 +1,7 @@
 package net.ilexiconn.rearrange.client.component;
 
 import net.ilexiconn.llibrary.LLibrary;
+import net.ilexiconn.rearrange.api.RearrangeAPI;
 import net.ilexiconn.rearrange.api.component.IComponent;
 import net.ilexiconn.rearrange.api.component.IComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponentConfig;
@@ -32,7 +33,7 @@ public class HotbarComponent extends Gui implements IComponent {
             @Override
             public char getDisplayChar(IComponentConfig config) {
                 boolean animated = config.get("animated");
-                return animated ? 'o' : 'x';
+                return RearrangeAPI.getDefaultChar(animated);
             }
 
             @Override

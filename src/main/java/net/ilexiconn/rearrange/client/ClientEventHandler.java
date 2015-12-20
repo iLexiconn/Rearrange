@@ -40,6 +40,21 @@ public class ClientEventHandler {
             int yPos = config.get("yPos");
             component.render(xPos, yPos, config);
         }
+        if (event.type == RenderGameOverlayEvent.ElementType.HOTBAR) {
+            for (IComponent c : RearrangeAPI.getComponentListWithoutType()) {
+                if (mc.currentScreen instanceof GuiEditComponents) {
+                    return;
+                }
+                IComponentConfig config = RearrangeAPI.getConfigForComponent(c);
+                boolean enabled = config.get("enabled");
+                if (!enabled) {
+                    return;
+                }
+                int xPos = config.get("xPos");
+                int yPos = config.get("yPos");
+                c.render(xPos, yPos, config);
+            }
+        }
     }
 
     @SubscribeEvent

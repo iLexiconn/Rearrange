@@ -11,11 +11,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = "rearrange", name = "Rearrange", version = Rearrange.VERSION, dependencies = "required-after:llibrary@[0.6.0,)")
 public class Rearrange {
+    public static final String VERSION = "0.1.0-develop";
     @SidedProxy(serverSide = "net.ilexiconn.rearrange.server.ServerProxy", clientSide = "net.ilexiconn.rearrange.client.ClientProxy")
     public static ServerProxy proxy;
     public static LoggerHelper logger = new LoggerHelper("Rearrange");
-
-    public static final String VERSION = "0.1.0-develop";
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {

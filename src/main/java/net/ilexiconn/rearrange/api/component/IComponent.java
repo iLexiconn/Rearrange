@@ -18,6 +18,9 @@ import java.util.List;
 public interface IComponent {
     /**
      * Return the id of this component. This value is used for the config entry.
+     * You should not use capitals in the ID. Use underscores instead. Example:
+     * DO:      test_component
+     * DON'T:   testComponent
      *
      * @return the id of this component.
      */
@@ -27,15 +30,15 @@ public interface IComponent {
      * Called when the user opens the edit gui.
      *
      * @param buttonList the list with all the button instances.
-     * @param config the config instance.
+     * @param config     the config instance.
      */
     void init(List<IComponentButton> buttonList, IComponentConfig config);
 
     /**
      * Called every render tick.
      *
-     * @param x the current x coordinate.
-     * @param y the current y coordinate.
+     * @param x      the current x coordinate.
+     * @param y      the current y coordinate.
      * @param config the config instance.
      */
     void render(int x, int y, IComponentConfig config);

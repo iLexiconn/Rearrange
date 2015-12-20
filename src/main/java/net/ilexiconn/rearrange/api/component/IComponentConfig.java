@@ -17,17 +17,17 @@ public interface IComponentConfig {
     /**
      * Set a variable in the config.
      *
-     * @param id the string identifier for this variable.
+     * @param id    the string identifier for this variable.
      * @param value the value of this variable.
-     * @param <T> the type of this variable.
+     * @param <T>   the type of this variable.
      * @throws UnsupportedOperationException if not supported by the used implementation.
      */
     <T> void set(String id, T value);
 
     /**
-     *Get a variable from the config.
+     * Get a variable from the config.
      *
-     * @param id the string identifier for this variable.
+     * @param id  the string identifier for this variable.
      * @param <T> the type of this variable.
      * @return the variable.
      * @throws UnsupportedOperationException if not supported by the used implementation.

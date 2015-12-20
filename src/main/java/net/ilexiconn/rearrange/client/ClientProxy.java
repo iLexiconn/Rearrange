@@ -32,6 +32,7 @@ public class ClientProxy extends ServerProxy {
         RearrangeAPI.registerOverrideComponent(new FoodComponent(), ElementType.FOOD);
         RearrangeAPI.registerOverrideComponent(new ExperienceComponent(), ElementType.EXPERIENCE);
         RearrangeAPI.registerOverrideComponent(new ArmorComponent(), ElementType.ARMOR);
+        RearrangeAPI.registerComponent(new ArmorStatusComponent());
     }
 
     public void postInit() {

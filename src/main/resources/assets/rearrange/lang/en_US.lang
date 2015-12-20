@@ -3,3 +3,5 @@ key.editComponents=Edit Components
 rearrange.enable.tooltip=Enable or disable this component
 rearrange.hotbar.tooltip=Animate the item pickup sequence
 rearrange.armor.tooltip=Resize the bar to the amount of armor pieces
+rearrange.armorStatus.tooltip.showDamage=Display the damage bar
+rearrange.armorStatus.tooltip.showNames=Display the armor names

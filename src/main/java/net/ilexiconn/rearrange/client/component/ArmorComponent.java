@@ -1,17 +1,23 @@
 package net.ilexiconn.rearrange.client.component;
 
+import net.ilexiconn.rearrange.api.RearrangeAPI;
 import net.ilexiconn.rearrange.api.component.IComponent;
 import net.ilexiconn.rearrange.api.component.IComponentButton;
 import net.ilexiconn.rearrange.api.component.IComponentConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
+@SideOnly(Side.CLIENT)
 public class ArmorComponent extends Gui implements IComponent {
     public Minecraft mc = Minecraft.getMinecraft();
+    public ResourceLocation texture = new ResourceLocation("textures/gui/icons.png");
 
     @Override
     public String getComponentID() {
@@ -24,7 +30,7 @@ public class ArmorComponent extends Gui implements IComponent {
             @Override
             public char getDisplayChar(IComponentConfig config) {
                 boolean dynamicSize = config.get("dynamicSize");
-                return dynamicSize ? 'o' : 'x';
+                return RearrangeAPI.getDefaultChar(dynamicSize);
             }
 
             @Override
@@ -43,6 +49,7 @@ public class ArmorComponent extends Gui implements IComponent {
     @Override
     public void render(int x, int y, IComponentConfig config) {
         GlStateManager.enableBlend();
+        mc.getTextureManager().bindTexture(texture);
         int level = ForgeHooks.getTotalArmorValue(mc.thePlayer);
         boolean dynamicSize = config.get("dynamicSize");
         for (int i = 1; level > 0 && i < 20; i += 2) {

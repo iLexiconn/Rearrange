@@ -174,7 +174,7 @@ public class GuiEditComponents extends GuiScreen {
             @Override
             public char getDisplayChar(IComponentConfig config) {
                 boolean enabled = config.get("enabled");
-                return enabled ? 'o' : 'x';
+                return RearrangeAPI.getDefaultChar(enabled);
             }
 
             @Override
@@ -189,7 +189,7 @@ public class GuiEditComponents extends GuiScreen {
             }
         };
 
-        return new IComponentButtonInternal[] {buttonEnable};
+        return new IComponentButtonInternal[]{buttonEnable};
     }
 
     private interface IComponentButtonInternal extends IComponentButton {

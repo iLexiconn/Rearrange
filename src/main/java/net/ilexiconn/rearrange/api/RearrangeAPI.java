@@ -40,7 +40,7 @@ public class RearrangeAPI {
      * specific type will be overridden by this component.
      *
      * @param component the component to register.
-     * @param type the component to override.
+     * @param type      the component to override.
      */
     public static void registerOverrideComponent(IComponent component, RenderGameOverlayEvent.ElementType type) {
         if (type != null) {
@@ -152,5 +152,19 @@ public class RearrangeAPI {
      */
     public static List<IComponent> getComponentList() {
         return Lists.newArrayList(componentMap.keySet());
+    }
+
+    public static List<IComponent> getComponentListWithoutType() {
+        List<IComponent> componentList = Lists.newArrayList();
+        for (Map.Entry<IComponent, RenderGameOverlayEvent.ElementType> entry : componentMap.entrySet()) {
+            if (entry.getValue() == null) {
+                componentList.add(entry.getKey());
+            }
+        }
+        return componentList;
+    }
+
+    public static char getDefaultChar(boolean bool) {
+        return bool ? 'o' : 'x';
     }
 }
